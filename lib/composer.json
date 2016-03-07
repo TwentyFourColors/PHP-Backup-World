@@ -1,0 +1,13 @@
+{
+    "name": "hugorobles/lib",
+    "authors": [
+        {
+            "name": "Hugo Robles Garcia",
+            "email": "hugorobles@twentyfourcolors.com"
+        }
+    ],
+    "require": {
+        "dg/mysql-dump": "^1.3",
+        "codeless/ziparchiveex": "^1.0"
+    }
+}

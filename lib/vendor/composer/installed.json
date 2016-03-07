@@ -1,0 +1,119 @@
+[
+    {
+        "name": "dg/mysql-dump",
+        "version": "v1.3.0",
+        "version_normalized": "1.3.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/dg/MySQL-dump.git",
+            "reference": "c1c00a6b7ded9cab37f0280fa2940b1809835f90"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/dg/MySQL-dump/zipball/c1c00a6b7ded9cab37f0280fa2940b1809835f90",
+            "reference": "c1c00a6b7ded9cab37f0280fa2940b1809835f90",
+            "shasum": ""
+        },
+        "time": "2015-04-18 14:09:50",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "src/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "David Grudl",
+                "homepage": "http://davidgrudl.com"
+            }
+        ],
+        "description": "MySQL database dump.",
+        "homepage": "https://github.com/dg/MySQL-dump",
+        "keywords": [
+            "mysql"
+        ]
+    },
+    {
+        "name": "codeless/logmore",
+        "version": "v0.9.0",
+        "version_normalized": "0.9.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/codeless/LogMore.git",
+            "reference": "90719122c56c2380cdb8019b36537a9a0a78b66d"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/codeless/LogMore/zipball/90719122c56c2380cdb8019b36537a9a0a78b66d",
+            "reference": "90719122c56c2380cdb8019b36537a9a0a78b66d",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.2.0"
+        },
+        "time": "2012-10-12 12:08:41",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "LogMore": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "CC-BY-3.0"
+        ],
+        "description": "Minimalist logging tool providing wrappers for openlog, closelog and syslog",
+        "homepage": "https://www.github.com/codeless/logmore",
+        "keywords": [
+            "log",
+            "logging"
+        ]
+    },
+    {
+        "name": "codeless/ziparchiveex",
+        "version": "v1.0.1",
+        "version_normalized": "1.0.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/codeless/ZipArchiveEx.git",
+            "reference": "44883cbb8fec12d9a9001e25fcfa3a142b539c60"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/codeless/ZipArchiveEx/zipball/44883cbb8fec12d9a9001e25fcfa3a142b539c60",
+            "reference": "44883cbb8fec12d9a9001e25fcfa3a142b539c60",
+            "shasum": ""
+        },
+        "require": {
+            "codeless/logmore": ">=0.8.3"
+        },
+        "require-dev": {
+            "heartsentwined/file-system-manager": ">=1.1.1"
+        },
+        "time": "2012-09-24 11:11:46",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "ZipArchiveEx": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "description": "Extension of the PHP integrated ZipArchive class for recursively adding directories",
+        "homepage": "https://www.github.com/codeless/ziparchiveex",
+        "keywords": [
+            "compress",
+            "recursive",
+            "zip"
+        ]
+    }
+]
