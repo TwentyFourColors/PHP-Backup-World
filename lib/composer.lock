@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6ec41bfd9999e1be5a1f2b5470b54abe",
-    "content-hash": "0f3b3a3bae6f52232859cdfbff84204d",
+    "hash": "a4844c6585e9e7d50b1d7686d49ecb64",
+    "content-hash": "97f6bdbcafc68f87afcf7072ce0bdd30",
     "packages": [
         {
             "name": "codeless/logmore",
@@ -117,6 +117,43 @@
                 "mysql"
             ],
             "time": "2015-04-18 14:09:50"
+        },
+        {
+            "name": "rjkip/ftp-php",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rjkip/ftp-php.git",
+                "reference": "69869b3fe417172f3481e6245494843c31037366"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rjkip/ftp-php/zipball/69869b3fe417172f3481e6245494843c31037366",
+                "reference": "69869b3fe417172f3481e6245494843c31037366",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "FtpPhp\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "David Grudl"
+                },
+                {
+                    "name": "Reinier Kip",
+                    "email": "github@reinierkip.nl",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A small, easy-to-use library for accessing FTP servers.",
+            "time": "2014-01-13 19:24:51"
         }
     ],
     "packages-dev": [],

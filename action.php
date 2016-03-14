@@ -87,24 +87,28 @@
 require_once("inc/backup.class.php");
 
 /* Basic to backup */
-$app = new BackupThis('folder','/themes');
+/*$app = new BackupThis('folder','/magnificent/tools','','','');*/
+$app = new BackupThis('database','backuptesting','mmreservas.twentyfourcolors.net','root','root');
+/*$app->include_database('mmreservas.twentyfourcolors.net','root','root','backuptesting');*/
+/*$app->include_folder('/magnificent/documentation');*/
+$app->save_ftp('ftp.cluster005.ovh.net','rosamaridb','8Dn0267Kg','/');
 $app->action('now','Friday','00:00');
 
 
 /* Backup with options extra */
-$app = new BackupThis('folder','/cache');
+/*$app = new BackupThis('folder','/cache');
 $app->set_live('7');
 $app->set_name('PERSONALNAME_BACKUP');
 $app->include_folder('/config');
 $app->include_database('localhost','test_user','test_pass','backuptesting');
 $app->save_ftp('twentyfourcolors.net','test_user','test_pass','/var/www/');
 $app->sendmail('hugorobles@twentyfourcolors.com');
-$app->action('cron','Wednesday','00:00');
+$app->action('cron','Wednesday','00:00');*/
 
 /* Only Database and FTP Upload Backup */
-$app = new BackupThis('database','backuptesting','localhost','test_user','test_pass');
+/*$app = new BackupThis('database','backuptesting','localhost','test_user','test_pass');
 $app->save_ftp('twentyfourcolors.net','test_user','test_pass','/var/www/');
-$app->action('cron','Thursday','00:00');
+$app->action('cron','Thursday','00:00');*/
 
 
 

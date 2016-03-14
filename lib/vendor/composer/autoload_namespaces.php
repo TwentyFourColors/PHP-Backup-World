@@ -8,4 +8,5 @@ $baseDir = dirname($vendorDir);
 return array(
     'ZipArchiveEx' => array($vendorDir . '/codeless/ziparchiveex/src'),
     'LogMore' => array($vendorDir . '/codeless/logmore/src'),
+    'FtpPhp\\' => array($vendorDir . '/rjkip/ftp-php/src'),
 );

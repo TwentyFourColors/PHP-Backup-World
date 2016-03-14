@@ -45,13 +45,16 @@ class BackupThis
     private $get_live;
     private $mysql_conn;
     private $name_file;
+    private $name_file_path;
     private $name_file_database;
+    private $name_file_database_path;
     private $email_log;
     private $email_info;
     private $include_dir;
     private $folder_content;
     private $path;
     private $base;
+    private $baseapp;
     private $type;
     private $get_name;
     private $ftp_conn;
@@ -62,6 +65,8 @@ class BackupThis
         $this->type = $type; /* Mode to backup */
         $this->path = $path_backup; /* Folder path to backup */
         $this->base = __DIR__;
+        $this->baseapp = dirname(__DIR__).'/';
+
         if ($type == 'database') {
             $this->mysql_conn = array(
                 'host' => $host,
@@ -185,20 +190,23 @@ class BackupThis
             $host = '127.0.0.1';
         }
         $filename_mysql = $this->make_name('database', $database);
+        $filename_mysql_path = $this->baseapp.$filename_mysql;
+
         $dump = new MySQLDump(new mysqli($host, $user, $pass, $database));
 
-        $dump->save($filename_mysql);
-        if (file_exists($filename_mysql)) {
+        $dump->save($filename_mysql_path);
+        if (file_exists($filename_mysql_path)) {
             LogMore::debug('Backup Database ' . $database . ' Successfully');
 
         }
         /* Compress database backup */
         $zip = new ZipArchive();
-        $zip->open($filename_mysql . '.zip', ZipArchive::OVERWRITE | ZipArchive::CREATE);
-        $zip->addFile($filename_mysql);
+        $zip->open($filename_mysql_path . '.zip', ZipArchive::OVERWRITE | ZipArchive::CREATE);
+        $zip->addFile($filename_mysql_path);
         $zip->close();
-        unlink($filename_mysql);
+        unlink($filename_mysql_path);
         $this->name_file_database = $filename_mysql . '.zip';
+        $this->name_file_database_path = $filename_mysql_path.'.zip';
 
     }
 
@@ -208,10 +216,9 @@ class BackupThis
         LogMore::debug('Starting to upload backup...');
 
         $ftp_conn = new FtpClient("ftp://" . $this->ftp_conn['user'] . ":" . $this->ftp_conn['pass'] . "@" . $this->ftp_conn['host'] . "/" . $this->ftp_conn['path'] . "");
-        if ($ftp_conn->put($this->ftp_conn['path'] . $file_upload, $file_upload, FtpClient::BINARY)) {
+        if ($ftp_conn->put($this->ftp_conn['path'] . $this->name_file, $file_upload, FtpClient::BINARY)) {
             LogMore::debug('Backup ' . $this->name_file . ' uploaded successfully in ' . $this->ftp_conn['host']);
-
-            unlink($this->name_file);
+            unlink($file_upload);
         } else {
             LogMore::debug('There was a problem while uploading ' . $this->name_file);
         }
@@ -227,12 +234,14 @@ class BackupThis
         if ($type == 'main') {
             $this_zip = $this->make_name($this->type, $path_folder);
             $this->name_file = $this_zip;
+            $name_file_path = $this->baseapp.$this_zip;
+            $this->name_file_path = $name_file_path;
         } else if ($type == 'include') {
             $this_zip = $this->make_name('folder', $path_folder);
         }
 
         $zip = new ZipArchiveEx();
-        $zip->open($this_zip, ZipArchive::OVERWRITE | ZipArchive::CREATE);
+        $zip->open($name_file_path, ZipArchive::OVERWRITE | ZipArchive::CREATE);
 
         # Add whole directory including contents:
         /*$zip->excludeDir(basename($path_www).$exclude_directory_files);*/
@@ -251,7 +260,7 @@ class BackupThis
     private function compress_folder($path_folder)
     {
         $zip = new ZipArchiveEx();
-        $zip->open($this->name_file, ZipArchive::OVERWRITE | ZipArchive::CREATE);
+        $zip->open($this->name_file_path, ZipArchive::OVERWRITE | ZipArchive::CREATE);
         $zip->addDir($path_folder);
         $zip->close();
     }
@@ -259,7 +268,7 @@ class BackupThis
     /* Make folder for more content */
     private function make_folder($name_folder)
     {
-        $folder_content = str_replace('.zip', '', $name_folder);
+        $folder_content = $this->baseapp.str_replace('.zip', '', $name_folder);
         $this->folder_content = $folder_content;
         mkdir($folder_content);
     }
@@ -321,18 +330,18 @@ class BackupThis
                     if (!empty($this->include_dir)) {
                         foreach ($this->include_dir as $dir) {
                             $name_file = $this->backup_folder($dir, 'include');
-                            rename($name_file, $this->folder_content . '/' . $name_file);
+                            rename($this->baseapp.$name_file, $this->folder_content . '/' . $name_file);
                         }
                     }
 
                     /* Include database */
                     if (!empty($this->mysql_conn)) {
                         $this->backup_mysql($this->mysql_conn['host'], $this->mysql_conn['user'], $this->mysql_conn['pass'], $this->mysql_conn['database']);
-                        rename($this->name_file_database, $this->folder_content . '/' . $this->name_file_database);
+                        rename($this->baseapp.$this->name_file_database, $this->folder_content . '/' . $this->name_file_database);
                     }
 
                     /* Move main backup folder to content folder */
-                    rename($this->name_file, $this->folder_content . '/' . $this->name_file);
+                    rename($this->name_file_path,  $this->folder_content . '/' . $this->name_file);
 
                     /* Compress Content folder and delete */
                     $this->compress_folder($this->folder_content);
@@ -342,6 +351,7 @@ class BackupThis
 
             } elseif ($this->type == 'database') {
                 $this->backup_mysql($this->mysql_conn['host'], $this->mysql_conn['user'], $this->mysql_conn['pass'], $this->mysql_conn['database']);
+                $this->name_file_path = $this->baseapp.$this->name_file_database;
                 $this->name_file = $this->name_file_database;
             }
 
@@ -351,17 +361,16 @@ class BackupThis
                 if ($this->type == 'folder') {
                     LogMore::debug('Moving backup to directory "save"');
 
-                    rename($this->name_file, 'save/' . $this->name_file);
+                    rename($this->name_file_path, $this->baseapp.'save/' . $this->name_file);
                 } elseif ($this->type == 'database') {
                     LogMore::debug('Moving database backup to directory "save-mysql"');
 
-                    rename($this->name_file_database, 'save-mysql/' . $this->name_file_database);
+                    rename($this->name_file_database_path, $this->baseapp.'save-mysql/' . $this->name_file_database);
                 }
 
             } else {
                 /* Function to upload */
-
-                $this->file_upload($this->name_file);
+                $this->file_upload($this->name_file_path);
             }
 
             /* Send Email Log */
